@@ -448,10 +448,10 @@ async function runAction(action: IAction): Promise<void> {
 	}
 }
 
-interface IExtensionActionOptions extends IAction2Options {
+type IExtensionActionOptions = IAction2Options & {
 	menuTitles?: { [id: string]: string };
 	run(accessor: ServicesAccessor, ...args: any[]): Promise<any>;
-}
+};
 
 class ExtensionsContributions extends Disposable implements IWorkbenchContribution {
 
@@ -991,9 +991,8 @@ class ExtensionsContributions extends Disposable implements IWorkbenchContributi
 			id: 'workbench.extensions.action.extensionUpdates',
 			title: { value: localize('extensionUpdates', "Show Extension Updates"), original: 'Show Extension Updates' },
 			category: ExtensionsLocalizedLabel,
+			f1: true,
 			menu: [{
-				id: MenuId.CommandPalette,
-			}, {
 				id: extensionsFilterSubMenu,
 				group: '3_installed',
 				order: 1,
@@ -1045,7 +1044,6 @@ class ExtensionsContributions extends Disposable implements IWorkbenchContributi
 			id: 'workbench.extensions.action.showDisabledExtensions',
 			title: { value: localize('showDisabledExtensions', "Show Disabled Extensions"), original: 'Show Disabled Extensions' },
 			category: ExtensionsLocalizedLabel,
-
 			menu: [{
 				id: MenuId.CommandPalette,
 				when: ContextKeyExpr.or(CONTEXT_HAS_LOCAL_SERVER, CONTEXT_HAS_REMOTE_SERVER, CONTEXT_HAS_WEB_SERVER)
